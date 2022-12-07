@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,9 +16,7 @@ use App\Http\Controllers\AdminController;
 |
 */
 
-Route::get('/', function () {
-    return view('frontend.homepage');
-});
+Route::get('/', [HomeController::class, 'index']);
 
 Route::middleware([
     'auth:sanctum',
@@ -33,8 +32,22 @@ Route::middleware([
 Route::get('/redirect', [HomeController::class, 'redirect'])->middleware('auth:sanctum');
 
 // admin category routes
-Route::get('/category', [AdminController::class, 'showcategory']);
-Route::post('/add_category', [AdminController::class, 'add_category']);
+Route::middleware(['auth:sanctum'])->group(function(){
+    Route::get('/category', [AdminController::class, 'showcategory']);
+    Route::post('/add_category', [AdminController::class, 'add_category']);
+    Route::get('/delete_category/{id}', [AdminController::class, 'delete']);
+});
+
+// product routes
+Route::middleware(['auth:sanctum'])->group(function(){
+    Route::get('/addproduct', [ProductController::class, 'addproduct']);
+    Route::post('/storeproduct', [ProductController::class, 'storeproduct']);
+    Route::get('/showproduct', [ProductController::class, 'showproduct']);
+    Route::get('/editproduct/{id}', [ProductController::class, 'editproduct']);
+    Route::post('/updateproduct/{id}', [ProductController::class, 'updateproduct']);
+    Route::get('/deleteproduct/{id}', [ProductController::class, 'deleteproduct']);
+});
+
 
 
 

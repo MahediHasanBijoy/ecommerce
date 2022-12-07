@@ -24,6 +24,29 @@
 			</div>
 		</form>
 	</div>
+
+
+	<table class="table table-bordered table-striped text-center w-75 mx-auto mt-5">
+		<thead>
+			<tr class="table-dark">
+				<th>#sl</th>
+				<th>Name</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			@php( $sl = 1)
+			@foreach($categories as $category)
+			<tr>
+				<td>{{$sl++}}</td>
+				<td>{{$category->category_name}}</td>
+				<td>
+					<a class="btn btn-danger btn-sm" href="{{url('/delete_category', $category->id)}}">Delete</a>
+				</td>
+			</tr>
+			@endforeach
+		</tbody>
+	</table>
 </div>
 	
 
