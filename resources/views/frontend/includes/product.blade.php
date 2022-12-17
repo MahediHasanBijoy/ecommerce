@@ -1,4 +1,4 @@
-<section class="product_section layout_padding">
+<section class="product_section layout_padding" id="products">
    <div class="container">
       <div class="heading_container heading_center">
          <h2>
@@ -11,11 +11,19 @@
             <div class="box">
                <div class="option_container">
                   <div class="options">
-                     <a href="" class="option1">
-                     {{$product->title}}
+                     <a href="{{url('product_details', $product->id)}}" class="option1">
+                     Product Details
                      </a>
-                     <a href="" class="option2">
-                     Buy Now
+                     {{-- <a href="{{url('add_cart', $product->id)}}" class="option2">
+                     Add to cart
+                     </a> --}}
+                     <a class="option2">
+                        <form action="{{url('add_cart', $product->id)}}" method="post">
+                        @csrf
+
+                        <button class="text-white" type="submit" style="outline: none;background:
+                         transparent;border: none;">Add to cart</button>
+                     </form>
                      </a>
                   </div>
                </div>
@@ -28,17 +36,17 @@
                         {{$product->title}}
                      </h5>
                      <h6 class="text-success">
-                        {{$product->dis_price}}
+                        ${{$product->dis_price}}
                      </h6>
                      <h6 class="text-danger" style="text-decoration: line-through;">
-                        {{$product->price}}
+                        ${{$product->price}}
                      </h6>
                   @else
                      <h5>
-                        {{$product->title}}
+                        ${{$product->title}}
                      </h5>
                      <h6 class="text-success">
-                        {{$product->price}}
+                        ${{$product->price}}
                      </h6>
                   @endif
                </div>
