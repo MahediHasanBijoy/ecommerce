@@ -8,7 +8,7 @@ use App\Models\Cart;
 
 class CartController extends Controller
 {
-    //
+    //add cart data to table
     public function add_cart(Request $request, $id){
         $user = auth()->user();
 
@@ -31,9 +31,9 @@ class CartController extends Controller
                 $cart->price = $product->price;
             }
             if($request->quantity != null){
-                dd($cart->quantity = $request->quantity);
+                $cart->quantity = $request->quantity;
             }else{
-                ($cart->quantity = 1);
+                $cart->quantity = 1;
             }
             $cart->image = $product->image;
             $cart->product_id = $product->id;
@@ -62,6 +62,7 @@ class CartController extends Controller
         return back();
     }
 
+    // show cart
     public function show_cart(){
         $user_id = auth()->user()->id;
 

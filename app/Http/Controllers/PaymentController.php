@@ -3,23 +3,37 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Stripe;
+use Session;
 use App\Models\Cart;
 use App\Models\Order;
-use PDF;
 
-class OrderController extends Controller
+class PaymentController extends Controller
 {
-    // show all orders in admin panel
-    public function index(){
-        // all orders
-        $orders = Order::all();
-
-        return view('admin.order.show', compact('orders'));
+    //show payment page
+    public function index($totalprice){
+        return view('frontend.payment', compact('totalprice'));
     }
 
 
-    // cash on delivery 
-    public function cash_on_delivery(){
+    // test card number: 4242424242424242
+    // payment processing method
+    public function payment(Request $request, $totalprice)
+    {
+        
+        // stripe payment creadentials
+        Stripe\Stripe::setApiKey(config('app.stripe_secret'));
+        Stripe\Charge::create ([
+                "amount" => $totalprice * 150,
+                "currency" => "usd",
+                "source" => $request->stripeToken,
+                "description" => "Making test payment." 
+        ]);
+
+        /*
+            move products from cart table to order table
+        */
+
         // current authenticated user id
         $user_id = auth()->user()->id;
 
@@ -40,7 +54,7 @@ class OrderController extends Controller
             $order->price = $cart->price;
             $order->image = $cart->image;
             $order->product_id = $cart->product_id;
-            $order->payment_status = 'pending';
+            $order->payment_status = 'paid';
             $order->delivery_status = 'processing';
 
             $order->save();
@@ -49,38 +63,9 @@ class OrderController extends Controller
             $cart->delete();
   
         }
-        
-        // all orders
-        $orders = Order::where('user_id', $user_id)->get();
-        
-        return view('frontend.order_details', compact('orders'));
-    }
-
-
-
-    // update delivery status
-    public function delivery_status($id){
-        $order = Order::find($id);
-
-        $order->delivery_status = 'delivered';
-        $order->payment_status = 'paid';
-
-        $order->save();
-
+  
+        Session::flash('success', 'Payment has been successfully processed.');
+          
         return back();
-    }
-
-
-    // print pdf for an order details
-    public function print_pdf($id){
-
-        $order = Order::find($id);
-
-        // // convert object to array
-        // $data = $order->toArray();
-
-        $pdf = PDF::loadView('admin.order.pdf', compact('order'));
-
-        return $pdf->download('order_details.pdf');
     }
 }

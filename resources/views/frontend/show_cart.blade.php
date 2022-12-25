@@ -80,7 +80,7 @@
 	        		</div>
 
 	        		<div class="mt-3 mb-3">
-	        			<a href="" class="btn btn-danger">Pay with card</a>
+	        			<a href="{{ url('cardpay', $totalprice)}}" class="btn btn-danger">Pay with card</a>
 	        		</div>
 	        	</div>
 	        </div>

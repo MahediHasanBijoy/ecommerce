@@ -12,7 +12,7 @@
                   <span class="count bg-success"></span>
                 </div>
                 <div class="profile-name">
-                  <h5 class="mb-0 font-weight-normal">Henry Klein</h5>
+                  <h5 class="mb-0 font-weight-normal">{{auth()->user()->name}}</h5>
                   <span>Gold Member</span>
                 </div>
               </div>
@@ -85,6 +85,14 @@
                 <i class="mdi mdi-playlist-play"></i>
               </span>
               <span class="menu-title">Category</span>
+            </a>
+          </li>
+          <li class="nav-item menu-items">
+            <a class="nav-link" href="{{url('/orders')}}">
+              <span class="menu-icon">
+                <i class="mdi mdi-playlist-play"></i>
+              </span>
+              <span class="menu-title">Orders</span>
             </a>
           </li>
         </ul>
