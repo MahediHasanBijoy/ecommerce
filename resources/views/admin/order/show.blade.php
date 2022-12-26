@@ -5,6 +5,17 @@
 
 	<div class="content-wrapper" style="overflow-x:auto;">
 		<h3 class="text-center">All Orders</h3>
+		<!-- Seach div -->
+		<div class="m-2 p-2">
+			<form action="{{url('search_order')}}" method="get">
+				@csrf
+				<div class="form-group">
+					<input type="text" placeholder="Seach for order" name="search_order">
+					<input type="submit" class="btn btn-outline-secondary" value="Search">
+				</div>
+
+			</form>
+		</div>
 		<table class="table w-100" >
 			<thead>
 				<tr>
@@ -24,6 +35,7 @@
 				</tr>
 			</thead>
 			<tbody>
+				@if(!$orders->isEmpty())
 				@php($sl = 1)
 				@foreach($orders as $order)
 				<tr>
@@ -39,7 +51,7 @@
 					<td>{{$order->payment_status}}</td>
 					<td>
 						@if($order->delivery_status=='processing')
-							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">{{$order->delivery_status}}</button type="button">
+							<button type="button" class="btn btn-primary delivery_status" data-toggle="modal" data-target="#exampleModal" value="{{$order->id}}">{{$order->delivery_status}}</button type="button">
 						@else
 							<p>Delivered</p>
 						@endif
@@ -53,6 +65,13 @@
 					</td>
 				</tr>
 				@endforeach
+
+				@else
+					<tr>
+						<td colspan="13" class="text-center text-white">No data found</td>
+					</tr>
+
+				@endif
 			</tbody>
 		</table>
 	</div>
@@ -73,7 +92,7 @@
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-	        <a href="{{url('delivered', $order->id)}}"  class="btn btn-primary">Yes</a>
+	        <a href=""  class="btn btn-primary delivery_modal">Yes</a>
 	      </div>
 	    </div>
 	  </div>

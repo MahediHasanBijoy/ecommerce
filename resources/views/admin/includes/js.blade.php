@@ -17,6 +17,22 @@
 
 <script>
 	$(document).ready(function(){
+		// flush message removing
 		$('.message').fadeOut(2000);
-	})
+
+		// delivery status change
+		$('.delivery_status').click(function(){
+
+			var order_id = $(this).val();
+
+			var url = "http://127.0.0.1:8000/delivered/"+order_id;
+			
+
+			$('.delivery_modal').attr('href', url);
+		});
+
+
+
+
+	});
 </script>

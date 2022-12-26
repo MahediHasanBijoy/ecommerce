@@ -116,4 +116,16 @@ class OrderController extends Controller
 
         return redirect('/orders');
     }
+
+
+
+    // Search order
+    public function search_order(Request $request){
+        $searchText = $request->search_order;
+
+        // search orders table with searchText
+        $orders = Order::where('name', 'LIKE', '%'.$searchText.'%')->orWhere('email', 'LIKE', '%'.$searchText.'%')->orWhere('phone', 'LIKE', '%'.$searchText.'%')->orWhere('product_title', 'LIKE', '%'.$searchText.'%')->get();
+        
+        return view('admin.order.show', compact('orders'));
+    }
 }

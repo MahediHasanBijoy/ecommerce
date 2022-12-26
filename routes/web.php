@@ -38,7 +38,9 @@ Route::get('/redirect', [HomeController::class, 'redirect'])->middleware('auth:s
 
 
 Route::middleware(['auth:sanctum'])->group(function(){
+
     /*-------------- Admin Routes -----------------*/
+
     // admin category routes
     Route::get('/category', [AdminController::class, 'showcategory']);
     Route::post('/add_category', [AdminController::class, 'add_category']);
@@ -58,9 +60,11 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::get('/print_pdf/{id}', [OrderController::class, 'print_pdf']);
     Route::get('/mail/{id}', [OrderController::class, 'mail']);
     Route::post('/create_mail/{id}', [OrderController::class, 'create_mail']);
+    Route::get('/search_order', [OrderController::class, 'search_order']);
 
 
     /*----------------- Ecommerce Routes --------------*/
+
     // cart routes
     Route::post('/add_cart/{id}', [CartController::class, 'add_cart']);
     Route::get('/show_cart', [CartController::class, 'show_cart']);
