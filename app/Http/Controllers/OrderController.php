@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Cart;
 use App\Models\Order;
 use PDF;
+use Notification;
+use App\Notifications\SendEmailNotification;
 
 class OrderController extends Controller
 {
@@ -76,11 +78,42 @@ class OrderController extends Controller
 
         $order = Order::find($id);
 
-        // // convert object to array
-        // $data = $order->toArray();
-
         $pdf = PDF::loadView('admin.order.pdf', compact('order'));
 
         return $pdf->download('order_details.pdf');
+    }
+
+
+
+
+    // view mail create form 
+    public function mail($id){
+        
+        $order = Order::find($id);
+
+        return view('admin.order.send_mail', compact('order'));
+    }
+
+
+    // create mail
+    public function create_mail(Request $request, $id){
+        // order object
+        $order = Order::find($id);
+
+        // details array for sending as a parameter to constructor of SendEmailNotification instance
+        $details = [
+            'greeting' => $request->greeting,
+            'firstline' => $request->firstline,
+            'body' => $request->body,
+            'button' => $request->button,
+            'url' => $request->url,
+            'lastline' => $request->lastline,
+        ];
+
+        // use Notifiable trait in Order model 
+        // send notification to $order->email
+        Notification::send($order, new SendEmailNotification($details));
+
+        return redirect('/orders');
     }
 }

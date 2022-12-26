@@ -56,6 +56,8 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::get('/orders', [OrderController::class, 'index']);
     Route::get('/delivered/{id}', [OrderController::class, 'delivery_status']);
     Route::get('/print_pdf/{id}', [OrderController::class, 'print_pdf']);
+    Route::get('/mail/{id}', [OrderController::class, 'mail']);
+    Route::post('/create_mail/{id}', [OrderController::class, 'create_mail']);
 
 
     /*----------------- Ecommerce Routes --------------*/

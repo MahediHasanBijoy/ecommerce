@@ -20,6 +20,7 @@
 					<th style=" word-break: break-all;">Payment Status</th>
 					<th style=" word-break: break-word !important;">Delivery Status</th>
 					<th>Print</th>
+					<th>Email</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -46,6 +47,9 @@
 					</td>
 					<td>
 						<a href="{{url('print_pdf', $order->id)}}" class="btn btn-secondary">Pdf</a>
+					</td>
+					<td>
+						<a href="{{url('mail', $order->id)}}" class="btn btn-info">Send Mail</a>
 					</td>
 				</tr>
 				@endforeach
